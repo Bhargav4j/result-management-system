@@ -1,0 +1,40 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to Result Management System</h1>
+    <p class="lead">Manage students, courses, and results efficiently.</p>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Students</h5>
+                <p class="card-text">Manage student information and records.</p>
+                <a asp-page="/Students/Index" class="btn btn-primary">View Students</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Courses</h5>
+                <p class="card-text">Manage courses and course information.</p>
+                <a asp-page="/Courses/Index" class="btn btn-primary">View Courses</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Results</h5>
+                <p class="card-text">View and manage student results.</p>
+                <a href="#" class="btn btn-primary">View Results</a>
+            </div>
+        </div>
+    </div>
+</div>

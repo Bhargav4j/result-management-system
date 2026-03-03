@@ -1,0 +1,44 @@
+@page
+@model RMS.Web.Pages.Courses.IndexModel
+@{
+    ViewData["Title"] = "Courses";
+}
+
+<h1>Courses</h1>
+
+<p>
+    <a asp-page="Create" class="btn btn-primary">Create New Course</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Course Title</th>
+            <th>Level</th>
+            <th>Date Created</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var course in Model.Courses)
+        {
+            <tr>
+                <td>@course.Id</td>
+                <td>@course.CourseTitle</td>
+                <td>@course.CourseLevel</td>
+                <td>@course.DateCreated.ToShortDateString()</td>
+                <td>
+                    <a asp-page="./Details" asp-route-id="@course.Id" class="btn btn-sm btn-info">Details</a>
+                    <a asp-page="./Edit" asp-route-id="@course.Id" class="btn btn-sm btn-warning">Edit</a>
+                    <a asp-page="./Delete" asp-route-id="@course.Id" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (!Model.Courses.Any())
+{
+    <p class="text-muted">No courses found.</p>
+}
