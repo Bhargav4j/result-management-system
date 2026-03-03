@@ -13,7 +13,6 @@ Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .Enrich.FromLogContext()
     .WriteTo.Console()
-    .WriteTo.File("logs/rms-.txt", rollingInterval: RollingInterval.Day)
     .CreateLogger();
 
 builder.Host.UseSerilog();
@@ -35,6 +34,10 @@ builder.Services.AddScoped<IRegisteredCourseRepository, RegisteredCourseReposito
 builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 
+// Add health checks
+builder.Services.AddHealthChecks()
+    .AddDbContextCheck<RmsDbContext>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline
@@ -52,6 +55,8 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapRazorPages();
+app.MapHealthChecks("/health");
+app.MapHealthChecks("/ready");
 
 try
 {

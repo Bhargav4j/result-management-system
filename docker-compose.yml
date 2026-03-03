@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  rms-web:
+    image: rms-web:latest
+    container_name: rms-web
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:8080
+      - DB_SERVER=${DB_SERVER:-sql-server-host}
+      - DB_NAME=${DB_NAME:-RmsDatabase}
+      - DB_USER=${DB_USER:-sa}
+      - DB_PASSWORD=${DB_PASSWORD:-YourStrong@Password}
+      - TZ=UTC
+    volumes:
+      - ./logs:/app/logs
+      - ./data:/app/data
+    networks:
+      - rms-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    labels:
+      - "com.rms.service=web"
+      - "com.rms.version=1.0"
+
+networks:
+  rms-network:
+    driver: bridge
+    name: rms-network
+
+volumes:
+  logs:
+    driver: local
+  data:
+    driver: local
